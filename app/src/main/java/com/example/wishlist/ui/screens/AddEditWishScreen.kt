@@ -129,7 +129,7 @@ fun AddEditWishScreen(
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = if (isEdit) "Edit Wish" else "New Wish",
                     style = MaterialTheme.typography.headlineMedium,
