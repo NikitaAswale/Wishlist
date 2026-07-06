@@ -271,7 +271,9 @@ fun WishDetailScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
-                    onClick = { viewModel.toggleFulfilled(currentWish) },
+                    onClick = {
+                        viewModel.toggleFulfilled(currentWish)
+                    },
                     modifier = Modifier
                         .weight(1f)
                         .height(52.dp),

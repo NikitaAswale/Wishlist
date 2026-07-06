@@ -27,7 +27,7 @@ val DarkOnSurfaceVariant = Color(0xFFCAC4D0)
 val DarkOutline = Color(0xFF9E91A4)
 
 // Light theme colors — soft lavender with gold & rose accents
-val LightPrimary = Color(0xFF6A1B9A)
+val LightPrimary = Color(0xFF000000)
 val LightOnPrimary = Color(0xFFFFFFFF)
 val LightPrimaryContainer = Color(0xFFE1BEE7)
 val LightOnPrimaryContainer = Color(0xFF1A0033)

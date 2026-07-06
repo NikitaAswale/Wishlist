@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -65,7 +66,9 @@ fun HomeScreen(
 ) {
     val activeWishes by viewModel.activeWishes.collectAsState()
     val fulfilledWishes by viewModel.fulfilledWishes.collectAsState()
-    var showFulfilled by remember { mutableStateOf(false) }
+    var showFulfilled by remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -108,7 +111,9 @@ fun HomeScreen(
             item {
                 TabToggle(
                     showFulfilled = showFulfilled,
-                    onToggle = { showFulfilled = it },
+                    onToggle = {
+                        showFulfilled = it
+                    },
                     activeCount = activeWishes.size,
                     fulfilledCount = fulfilledWishes.size
                 )
@@ -116,15 +121,21 @@ fun HomeScreen(
 
             if (showFulfilled) {
                 if (fulfilledWishes.isEmpty()) {
-                    item { EmptyState(message = "No fulfilled wishes yet.\nMake your dreams come true!") }
+                    item {
+                        EmptyState(message = "No fulfilled wishes yet.\nMake your dreams come true!")
+                    }
                 } else {
                     items(
                         items = fulfilledWishes,
-                        key = { it.id }
+                        key = {
+                            it.id
+                        }
                     ) { wish ->
                         WishCard(
                             wish = wish,
-                            onClick = { onWishClick(wish.id) },
+                            onClick = {
+                                onWishClick(wish.id)
+                            },
                             onToggleFulfilled = { viewModel.toggleFulfilled(wish) },
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                         )
@@ -235,7 +246,7 @@ private fun HomeHeader(
 @Composable
 private fun StatCard(
     modifier: Modifier = Modifier,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     count: Int,
     label: String,
     gradientColors: List<Color>
@@ -288,14 +299,18 @@ private fun TabToggle(
             text = "Active",
             count = activeCount,
             isSelected = !showFulfilled,
-            onClick = { onToggle(false) },
+            onClick = {
+                onToggle(false)
+            },
             modifier = Modifier.weight(1f)
         )
         TabButton(
             text = "Fulfilled",
             count = fulfilledCount,
             isSelected = showFulfilled,
-            onClick = { onToggle(true) },
+            onClick = {
+                onToggle(true)
+            },
             modifier = Modifier.weight(1f)
         )
     }

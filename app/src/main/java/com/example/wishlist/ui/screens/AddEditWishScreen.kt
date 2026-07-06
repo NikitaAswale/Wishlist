@@ -22,11 +22,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
@@ -42,7 +39,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +47,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -61,9 +56,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.wishlist.data.Priority
 import com.example.wishlist.data.Wish
 import com.example.wishlist.ui.components.formatDate
-import com.example.wishlist.ui.theme.GradientEnd
-import com.example.wishlist.ui.theme.GradientMid
-import com.example.wishlist.ui.theme.GradientStart
 import com.example.wishlist.ui.theme.PriorityDream
 import com.example.wishlist.ui.theme.PriorityHigh
 import com.example.wishlist.ui.theme.PriorityLow
@@ -215,7 +207,9 @@ fun AddEditWishScreen(
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(16.dp))
                             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
-                            .clickable { showDatePicker = true }
+                            .clickable {
+                                showDatePicker = true
+                            }
                             .padding(16.dp)
                     ) {
                         Row(
@@ -367,11 +361,15 @@ fun AddEditWishScreen(
             initialSelectedDateMillis = selectedDate
         )
         DatePickerDialog(
-            onDismissRequest = { showDatePicker = false },
+            onDismissRequest = {
+                showDatePicker = false
+            },
             confirmButton = {
                 Button(
                     onClick = {
-                        datePickerState.selectedDateMillis?.let { selectedDate = it }
+                        datePickerState.selectedDateMillis?.let {
+                            selectedDate = it
+                        }
                         showDatePicker = false
                     }
                 ) {
@@ -379,7 +377,9 @@ fun AddEditWishScreen(
                 }
             },
             dismissButton = {
-                OutlinedButton(onClick = { showDatePicker = false }) {
+                OutlinedButton(onClick = {
+                    showDatePicker = false
+                }) {
                     Text("Cancel")
                 }
             }
