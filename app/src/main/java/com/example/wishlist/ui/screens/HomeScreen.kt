@@ -203,7 +203,7 @@ private fun HomeHeader(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Dream it. Plan it. Achieve it.",
+                        text = "Dream it. Then Plan it. Achieve it.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                     )
