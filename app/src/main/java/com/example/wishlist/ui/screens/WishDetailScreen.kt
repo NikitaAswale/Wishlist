@@ -335,7 +335,7 @@ fun WishDetailScreen(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Wish") },
+            title = { Text("Delete Wish.") },
             text = { Text("Are you sure you want to delete \"${currentWish.title}\"? This cannot be undone.") },
             confirmButton = {
                 TextButton(
