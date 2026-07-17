@@ -44,7 +44,7 @@ sealed class BottomNavItem(
     )
     data object Calendar : BottomNavItem(
         route = Screen.Calendar.route,
-        label = "Calendar",
+        label = "Calendars",
         selectedIcon = Icons.Filled.CalendarMonth,
         unselectedIcon = Icons.Outlined.CalendarMonth
     )
