@@ -137,7 +137,7 @@ fun HomeScreen(
                                 onWishClick(wish.id)
                             },
                             onToggleFulfilled = { viewModel.toggleFulfilled(wish) },
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                         )
                     }
                 }
