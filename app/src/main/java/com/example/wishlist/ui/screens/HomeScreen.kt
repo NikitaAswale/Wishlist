@@ -122,7 +122,7 @@ fun HomeScreen(
             if (showFulfilled) {
                 if (fulfilledWishes.isEmpty()) {
                     item {
-                        EmptyState(message = "No fulfilled wishes yet.\nMake your dreams come true!")
+                        EmptyState(message = "No fulfilled wishes yet.\nMake your dreams come true!!")
                     }
                 } else {
                     items(
