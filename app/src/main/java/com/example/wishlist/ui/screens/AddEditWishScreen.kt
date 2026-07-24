@@ -151,7 +151,7 @@ fun AddEditWishScreen(
                     OutlinedTextField(
                         value = title,
                         onValueChange = { title = it },
-                        placeholder = { Text("e.g., Trip to Japan") },
+                        placeholder = { Text("e.g. Trip to Japan") },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(
