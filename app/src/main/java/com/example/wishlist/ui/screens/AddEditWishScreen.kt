@@ -117,7 +117,7 @@ fun AddEditWishScreen(
                 IconButton(onClick = onBack) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Go Back",
+                        contentDescription = "Go Back.",
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
