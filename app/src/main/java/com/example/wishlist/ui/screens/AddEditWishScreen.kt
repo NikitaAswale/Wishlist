@@ -136,7 +136,7 @@ fun AddEditWishScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
+                    .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 // Title field
