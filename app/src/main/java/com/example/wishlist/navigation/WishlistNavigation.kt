@@ -183,7 +183,7 @@ private fun BottomNavigationBar(
                     selectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.primary,
                     unselectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = androidx.compose.material3.MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    indicatorColor = androidx.compose.material3.MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.6f)
                 )
             )
         }
