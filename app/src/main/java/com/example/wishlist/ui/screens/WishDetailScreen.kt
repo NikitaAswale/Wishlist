@@ -327,7 +327,7 @@ fun WishDetailScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 
