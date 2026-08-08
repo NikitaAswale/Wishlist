@@ -42,6 +42,7 @@ sealed class BottomNavItem(
         selectedIcon = Icons.Filled.AutoAwesome,
         unselectedIcon = Icons.Outlined.AutoAwesome
     )
+
     data object Calendar : BottomNavItem(
         route = Screen.Calendar.route,
         label = "Calendar",
