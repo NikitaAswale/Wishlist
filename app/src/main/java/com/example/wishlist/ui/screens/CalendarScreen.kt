@@ -79,7 +79,7 @@ fun CalendarScreen(
     }
 
     GradientBackground(
-        darkTheme = MaterialTheme.colorScheme.background.luminance() < 0.5f,
+        darkTheme = MaterialTheme.colorScheme.background.luminance() < 0.55f,
         modifier = Modifier.fillMaxSize()
     )
 
