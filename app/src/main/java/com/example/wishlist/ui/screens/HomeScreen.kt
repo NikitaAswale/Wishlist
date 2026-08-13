@@ -88,7 +88,7 @@ fun HomeScreen(
         }
     ) { paddingValues ->
         GradientBackground(
-            darkTheme = MaterialTheme.colorScheme.background.luminance() < 0.55f,
+            darkTheme = MaterialTheme.colorScheme.background.luminance() < 0.50f,
             modifier = Modifier.fillMaxSize()
         )
 
