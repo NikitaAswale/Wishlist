@@ -76,7 +76,7 @@ fun AddEditWishScreen(
     var description by remember { mutableStateOf("") }
     var selectedDate by remember { mutableLongStateOf(System.currentTimeMillis()) }
     var selectedPriority by remember { mutableStateOf(Priority.MEDIUM) }
-    var category by remember { mutableStateOf("General") }
+    var category by remember { mutableStateOf("Generals") }
     var showDatePicker by remember { mutableStateOf(false) }
     var existingWish by remember { mutableStateOf<Wish?>(null) }
 
