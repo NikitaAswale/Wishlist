@@ -171,7 +171,7 @@ fun WishDetailScreen(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
-                            .background(Color.White.copy(alpha = 0.2f))
+                            .background(Color.White.copy(alpha = 0.25f))
                             .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
                         Text(
