@@ -235,7 +235,7 @@ private fun HomeHeader(
                     modifier = Modifier.weight(1f),
                     icon = Icons.Filled.Star,
                     count = totalWishes,
-                    label = "Total",
+                    label = "Totals",
                     gradientColors = listOf(GradientEnd, GradientStart)
                 )
             }
