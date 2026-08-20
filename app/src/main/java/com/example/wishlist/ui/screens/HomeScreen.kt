@@ -144,7 +144,7 @@ fun HomeScreen(
             } else {
                 if (activeWishes.isEmpty()) {
                     item {
-                        EmptyState(message = "Your wishlist is empty.\nTap + to add your first wish!")
+                        EmptyState(message = "Your wishlist is empty\nTap + to add your first wish!")
                     }
                 } else {
                     // Group wishes by timeline
