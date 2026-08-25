@@ -17,18 +17,25 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.wishlist.data.Priority
 import com.example.wishlist.data.Wish
 import com.example.wishlist.ui.components.GradientBackground
 import com.example.wishlist.ui.components.WishCard
@@ -54,6 +62,10 @@ import com.example.wishlist.ui.components.getDaysRemaining
 import com.example.wishlist.ui.theme.GradientEnd
 import com.example.wishlist.ui.theme.GradientMid
 import com.example.wishlist.ui.theme.GradientStart
+import com.example.wishlist.ui.theme.PriorityDream
+import com.example.wishlist.ui.theme.PriorityHigh
+import com.example.wishlist.ui.theme.PriorityLow
+import com.example.wishlist.ui.theme.PriorityMedium
 import com.example.wishlist.viewmodel.WishViewModel
 import java.util.Calendar
 
@@ -69,6 +81,24 @@ fun HomeScreen(
     var showFulfilled by remember {
         mutableStateOf(false)
     }
+    var searchQuery by remember { mutableStateOf("") }
+    var selectedPriority by remember { mutableStateOf<Priority?>(null) }
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
+
+    val allWishes = activeWishes + fulfilledWishes
+    val availableCategories = allWishes
+        .map { it.category }
+        .filter { it.isNotBlank() }
+        .distinct()
+        .sorted()
+
+    val filteredActiveWishes = remember(activeWishes, searchQuery, selectedPriority, selectedCategory) {
+        filterWishes(activeWishes, searchQuery, selectedPriority, selectedCategory)
+    }
+    val filteredFulfilledWishes = remember(fulfilledWishes, searchQuery, selectedPriority, selectedCategory) {
+        filterWishes(fulfilledWishes, searchQuery, selectedPriority, selectedCategory)
+    }
+    val isFilterActive = searchQuery.isNotBlank() || selectedPriority != null || selectedCategory != null
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -119,14 +149,49 @@ fun HomeScreen(
                 )
             }
 
+            // Search bar
+            if (allWishes.isNotEmpty()) {
+                item {
+                    WishSearchBar(
+                        query = searchQuery,
+                        onQueryChange = { searchQuery = it }
+                    )
+                }
+
+                // Filter chips
+                item {
+                    FilterChipsRow(
+                        selectedPriority = selectedPriority,
+                        onPrioritySelect = { priority ->
+                            selectedPriority = if (selectedPriority == priority) null else priority
+                        },
+                        categories = availableCategories,
+                        selectedCategory = selectedCategory,
+                        onCategorySelect = { category ->
+                            selectedCategory = if (selectedCategory == category) null else category
+                        },
+                        onClearAll = {
+                            searchQuery = ""
+                            selectedPriority = null
+                            selectedCategory = null
+                        },
+                        isFilterActive = isFilterActive
+                    )
+                }
+            }
+
             if (showFulfilled) {
                 if (fulfilledWishes.isEmpty()) {
                     item {
                         EmptyState(message = "No fulfilled wishes yet.\nMake your dreams come true!")
                     }
+                } else if (filteredFulfilledWishes.isEmpty()) {
+                    item {
+                        EmptyState(message = "No fulfilled wishes match\nyour search or filters.")
+                    }
                 } else {
                     items(
-                        items = fulfilledWishes,
+                        items = filteredFulfilledWishes,
                         key = {
                             it.id
                         }
@@ -146,9 +211,13 @@ fun HomeScreen(
                     item {
                         EmptyState(message = "Your wishlist is empty.\nTap + to add your first wish!")
                     }
+                } else if (filteredActiveWishes.isEmpty()) {
+                    item {
+                        EmptyState(message = "No active wishes match\nyour search or filters.")
+                    }
                 } else {
                     // Group wishes by timeline
-                    val grouped = groupWishesByTimeline(activeWishes)
+                    val grouped = groupWishesByTimeline(filteredActiveWishes)
                     grouped.forEach { (sectionTitle, wishes) ->
                         item {
                             SectionHeader(title = sectionTitle, count = wishes.size)
@@ -408,6 +477,150 @@ private fun EmptyState(message: String) {
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
             textAlign = TextAlign.Center
         )
+    }
+}
+
+@Composable
+private fun WishSearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = query,
+        onValueChange = onQueryChange,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        placeholder = {
+            Text(
+                text = "Search wishes...",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        trailingIcon = {
+            if (query.isNotEmpty()) {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "Clear search",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
+        },
+        singleLine = true,
+        shape = RoundedCornerShape(20.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface
+        )
+    )
+}
+
+@Composable
+private fun FilterChipsRow(
+    selectedPriority: Priority?,
+    onPrioritySelect: (Priority) -> Unit,
+    categories: List<String>,
+    selectedCategory: String?,
+    onCategorySelect: (String) -> Unit,
+    onClearAll: () -> Unit,
+    isFilterActive: Boolean,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(Priority.entries.toList()) { priority ->
+            val isSelected = selectedPriority == priority
+            FilterChip(
+                selected = isSelected,
+                onClick = { onPrioritySelect(priority) },
+                shape = RoundedCornerShape(12.dp),
+                label = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(
+                                    when (priority) {
+                                        Priority.LOW -> PriorityLow
+                                        Priority.MEDIUM -> PriorityMedium
+                                        Priority.HIGH -> PriorityHigh
+                                        Priority.DREAM -> PriorityDream
+                                    }
+                                )
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(text = priority.label)
+                    }
+                }
+            )
+        }
+
+        items(categories) { category ->
+            val isSelected = selectedCategory == category
+            FilterChip(
+                selected = isSelected,
+                onClick = { onCategorySelect(category) },
+                shape = RoundedCornerShape(12.dp),
+                label = { Text(text = category) }
+            )
+        }
+
+        if (isFilterActive) {
+            item {
+                FilterChip(
+                    selected = false,
+                    onClick = onClearAll,
+                    shape = RoundedCornerShape(12.dp),
+                    label = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Filled.Close,
+                                contentDescription = null,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = "Clear")
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+
+private fun filterWishes(
+    wishes: List<Wish>,
+    query: String,
+    priority: Priority?,
+    category: String?
+): List<Wish> {
+    val normalizedQuery = query.trim().lowercase()
+    return wishes.filter { wish ->
+        val matchesQuery = normalizedQuery.isEmpty() ||
+            wish.title.lowercase().contains(normalizedQuery) ||
+            wish.description.lowercase().contains(normalizedQuery) ||
+            wish.category.lowercase().contains(normalizedQuery)
+        val matchesPriority = priority == null || wish.priority == priority
+        val matchesCategory = category == null || wish.category == category
+        matchesQuery && matchesPriority && matchesCategory
     }
 }
 
