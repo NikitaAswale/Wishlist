@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -28,6 +30,7 @@ import androidx.navigation.navArgument
 import com.example.wishlist.ui.screens.AddEditWishScreen
 import com.example.wishlist.ui.screens.CalendarScreen
 import com.example.wishlist.ui.screens.HomeScreen
+import com.example.wishlist.ui.screens.StatsScreen
 import com.example.wishlist.ui.screens.WishDetailScreen
 
 sealed class BottomNavItem(
@@ -49,6 +52,13 @@ sealed class BottomNavItem(
         selectedIcon = Icons.Filled.CalendarMonth,
         unselectedIcon = Icons.Outlined.CalendarMonth
     )
+
+    data object Insights : BottomNavItem(
+        route = Screen.Stats.route,
+        label = "Insights",
+        selectedIcon = Icons.Filled.Insights,
+        unselectedIcon = Icons.Outlined.Insights
+    )
 }
 
 @Composable
@@ -57,7 +67,7 @@ fun WishlistNavigation() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val showBottomBar = currentRoute in listOf(Screen.Home.route, Screen.Calendar.route)
+    val showBottomBar = currentRoute in listOf(Screen.Home.route, Screen.Calendar.route, Screen.Stats.route)
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -108,6 +118,10 @@ fun WishlistNavigation() {
                         navController.popBackStack()
                     }
                 )
+            }
+
+            composable(Screen.Stats.route) {
+                StatsScreen()
             }
 
             composable(Screen.AddWish.route) {
@@ -164,7 +178,7 @@ private fun BottomNavigationBar(
     currentRoute: String?,
     onNavigate: (String) -> Unit
 ) {
-    val items = listOf(BottomNavItem.Wishes, BottomNavItem.Calendar)
+    val items = listOf(BottomNavItem.Wishes, BottomNavItem.Calendar, BottomNavItem.Insights)
 
     NavigationBar {
         items.forEach { item ->

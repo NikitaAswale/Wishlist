@@ -3,6 +3,7 @@ package com.example.wishlist.navigation
 sealed class Screen(val route: String) {
     data object Home : Screen("home")
     data object Calendar : Screen("calendar")
+    data object Stats : Screen("stats")
     data object AddWish : Screen("add_wish")
     data object EditWish : Screen("edit_wish/{wishId}") {
         fun createRoute(wishId: Long) = "edit_wish/$wishId"
