@@ -78,4 +78,11 @@ class WishViewModel @Inject constructor(
             }
         }
     }
+
+    fun importWishes(wishes: List<Wish>) {
+        viewModelScope.launch {
+            repository.clearAll()
+            wishes.forEach { repository.insert(it) }
+        }
+    }
 }

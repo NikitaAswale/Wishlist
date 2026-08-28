@@ -18,4 +18,6 @@ class WishRepository @Inject constructor(private val wishDao: WishDao) {
     suspend fun delete(wish: Wish) = wishDao.delete(wish)
 
     suspend fun setFulfilled(id: Long, fulfilled: Boolean) = wishDao.setFulfilled(id, fulfilled)
+
+    suspend fun clearAll() = wishDao.clearAll()
 }
