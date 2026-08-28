@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Backup
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material3.Icon
@@ -28,6 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.wishlist.ui.screens.AddEditWishScreen
+import com.example.wishlist.ui.screens.BackupScreen
 import com.example.wishlist.ui.screens.CalendarScreen
 import com.example.wishlist.ui.screens.HomeScreen
 import com.example.wishlist.ui.screens.StatsScreen
@@ -59,6 +62,13 @@ sealed class BottomNavItem(
         selectedIcon = Icons.Filled.Insights,
         unselectedIcon = Icons.Outlined.Insights
     )
+
+    data object Backup : BottomNavItem(
+        route = Screen.Backup.route,
+        label = "Backup",
+        selectedIcon = Icons.Filled.Backup,
+        unselectedIcon = Icons.Outlined.Backup
+    )
 }
 
 @Composable
@@ -67,7 +77,12 @@ fun WishlistNavigation() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val showBottomBar = currentRoute in listOf(Screen.Home.route, Screen.Calendar.route, Screen.Stats.route)
+    val showBottomBar = currentRoute in listOf(
+        Screen.Home.route,
+        Screen.Calendar.route,
+        Screen.Stats.route,
+        Screen.Backup.route
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -124,6 +139,10 @@ fun WishlistNavigation() {
                 StatsScreen()
             }
 
+            composable(Screen.Backup.route) {
+                BackupScreen()
+            }
+
             composable(Screen.AddWish.route) {
                 AddEditWishScreen(
                     onSaved = {
@@ -178,7 +197,7 @@ private fun BottomNavigationBar(
     currentRoute: String?,
     onNavigate: (String) -> Unit
 ) {
-    val items = listOf(BottomNavItem.Wishes, BottomNavItem.Calendar, BottomNavItem.Insights)
+    val items = listOf(BottomNavItem.Wishes, BottomNavItem.Calendar, BottomNavItem.Insights, BottomNavItem.Backup)
 
     NavigationBar {
         items.forEach { item ->

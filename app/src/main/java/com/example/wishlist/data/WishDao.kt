@@ -37,4 +37,7 @@ interface WishDao {
 
     @Query("UPDATE wishes SET isFulfilled = :fulfilled WHERE id = :id")
     suspend fun setFulfilled(id: Long, fulfilled: Boolean)
+
+    @Query("DELETE FROM wishes")
+    suspend fun clearAll()
 }
