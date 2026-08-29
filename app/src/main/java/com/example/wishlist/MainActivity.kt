@@ -13,8 +13,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.core.content.ContextCompat
 import com.example.wishlist.navigation.WishlistNavigation
+import com.example.wishlist.ui.theme.ThemeMode
+import com.example.wishlist.ui.theme.ThemePreferenceStore
 import com.example.wishlist.ui.theme.WishlistTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,8 +38,18 @@ class MainActivity : ComponentActivity() {
         requestExactAlarmPermissionIfNeeded()
 
         setContent {
-            WishlistTheme {
-                WishlistNavigation()
+            var themeMode by rememberSaveable {
+                mutableStateOf(ThemePreferenceStore.getThemeMode(this))
+            }
+
+            WishlistTheme(themeMode = themeMode) {
+                WishlistNavigation(
+                    themeMode = themeMode,
+                    onThemeModeChange = { mode ->
+                        themeMode = mode
+                        ThemePreferenceStore.setThemeMode(this, mode)
+                    }
+                )
             }
         }
     }
