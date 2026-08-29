@@ -5,6 +5,7 @@ sealed class Screen(val route: String) {
     data object Calendar : Screen("calendar")
     data object Stats : Screen("stats")
     data object Backup : Screen("backup")
+    data object Settings : Screen("settings")
     data object AddWish : Screen("add_wish")
     data object EditWish : Screen("edit_wish/{wishId}") {
         fun createRoute(wishId: Long) = "edit_wish/$wishId"
