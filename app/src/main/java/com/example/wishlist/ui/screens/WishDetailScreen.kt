@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -50,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -57,6 +59,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.wishlist.data.Priority
 import com.example.wishlist.data.Wish
 import com.example.wishlist.ui.components.getDaysRemaining
+import com.example.wishlist.ui.components.shareWish
 import com.example.wishlist.ui.theme.GradientEnd
 import com.example.wishlist.ui.theme.GradientMid
 import com.example.wishlist.ui.theme.GradientStart
@@ -79,6 +82,7 @@ fun WishDetailScreen(
 ) {
     var wish by remember { mutableStateOf<Wish?>(null) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     LaunchedEffect(wishId) {
         wish = viewModel.getWishById(wishId)
@@ -141,6 +145,13 @@ fun WishDetailScreen(
                     Icon(
                         Icons.Filled.Edit,
                         contentDescription = "Edit",
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+                IconButton(onClick = { shareWish(context, currentWish) }) {
+                    Icon(
+                        Icons.Filled.Share,
+                        contentDescription = "Share",
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 }

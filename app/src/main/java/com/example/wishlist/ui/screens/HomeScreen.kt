@@ -50,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,6 +60,7 @@ import com.example.wishlist.data.Wish
 import com.example.wishlist.ui.components.GradientBackground
 import com.example.wishlist.ui.components.WishCard
 import com.example.wishlist.ui.components.getDaysRemaining
+import com.example.wishlist.ui.components.shareWish
 import com.example.wishlist.ui.theme.GradientEnd
 import com.example.wishlist.ui.theme.GradientMid
 import com.example.wishlist.ui.theme.GradientStart
@@ -78,6 +80,7 @@ fun HomeScreen(
 ) {
     val activeWishes by viewModel.activeWishes.collectAsState()
     val fulfilledWishes by viewModel.fulfilledWishes.collectAsState()
+    val context = LocalContext.current
     var showFulfilled by remember {
         mutableStateOf(false)
     }
@@ -202,6 +205,7 @@ fun HomeScreen(
                                 onWishClick(wish.id)
                             },
                             onToggleFulfilled = { viewModel.toggleFulfilled(wish) },
+                            onShare = { shareWish(context, wish) },
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                         )
                     }
@@ -230,6 +234,7 @@ fun HomeScreen(
                                 wish = wish,
                                 onClick = { onWishClick(wish.id) },
                                 onToggleFulfilled = { viewModel.toggleFulfilled(wish) },
+                                onShare = { shareWish(context, wish) },
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                             )
                         }
