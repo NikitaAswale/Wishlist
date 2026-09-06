@@ -1,6 +1,5 @@
 package com.example.wishlist.ui.components
 
-import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -74,7 +74,7 @@ fun WishCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
         Box(
             modifier = Modifier
@@ -92,10 +92,10 @@ fun WishCard(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Priority indicator / Fulfill toggle
+                // Priority indicator / Fulfill toggle (32.dp for better touch target)
                 Box(
                     modifier = Modifier
-                        .size(28.dp)
+                        .size(32.dp)
                         .clip(CircleShape)
                         .background(priorityColor.copy(alpha = 0.2f))
                         .clickable { onToggleFulfilled() },
@@ -157,7 +157,7 @@ fun WishCard(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Schedule,
-                                contentDescription = null,
+                                contentDescription = "Due date",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.size(14.dp)
                             )
@@ -226,6 +226,7 @@ private fun DaysRemainingBadge(
         Text(
             text = text,
             style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold,
             color = color
         )
     }
@@ -242,7 +243,10 @@ private fun CategoryChip(category: String) {
         Text(
             text = category,
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
