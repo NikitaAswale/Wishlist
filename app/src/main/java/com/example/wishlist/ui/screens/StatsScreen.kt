@@ -114,7 +114,7 @@ fun StatsScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.AutoAwesome,
-                            contentDescription = null,
+                            contentDescription = "No insights yet",
                             tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
                             modifier = Modifier.size(80.dp)
                         )
@@ -244,7 +244,7 @@ private fun OverviewCard(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
                 imageVector = icon,
-                contentDescription = null,
+                contentDescription = "$label insights",
                 tint = gradientColors[0],
                 modifier = Modifier.size(22.dp)
             )
@@ -364,7 +364,7 @@ private fun UpcomingWishCard(wish: Wish) {
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = wish.title,
                     style = MaterialTheme.typography.titleSmall,
@@ -380,7 +380,9 @@ private fun UpcomingWishCard(wish: Wish) {
                         else -> "$daysRemaining days to go"
                     },
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -422,9 +424,12 @@ private fun StatBar(
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = count.toString(),
                 style = MaterialTheme.typography.labelLarge,
