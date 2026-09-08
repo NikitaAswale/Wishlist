@@ -52,10 +52,11 @@ fun Wish.isDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Boolean {
 /** Maps a wish to its [WishUrgency] bucket. Fulfilled wishes always map to FULFILLED. */
 fun Wish.urgency(nowMillis: Long = System.currentTimeMillis()): WishUrgency {
     if (isFulfilled) return WishUrgency.FULFILLED
+    val days = daysUntilDue(nowMillis)
     return when {
-        daysUntilDue(nowMillis) < 0 -> WishUrgency.OVERDUE
-        daysUntilDue(nowMillis) == 0 -> WishUrgency.TODAY
-        daysUntilDue(nowMillis) <= 7 -> WishUrgency.THIS_WEEK
+        days < 0 -> WishUrgency.OVERDUE
+        days == 0 -> WishUrgency.TODAY
+        days <= 7 -> WishUrgency.THIS_WEEK
         else -> WishUrgency.UPCOMING
     }
 }
@@ -106,3 +107,12 @@ fun List<Wish>.groupByUrgency(
 
 fun List<Wish>.countOverdue(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isOverdue(nowMillis) }
+
+fun List<Wish>.countDueToday(nowMillis: Long = System.currentTimeMillis()): Int =
+    count { it.isDueToday(nowMillis) }
+
+fun List<Wish>.countDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Int =
+    count { it.isDueThisWeek(nowMillis) }
+
+fun List<Wish>.countFulfilled(): Int =
+    count { it.isFulfilled }
