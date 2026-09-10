@@ -52,14 +52,18 @@ fun Wish.isDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Boolean {
 fun Wish.isUpcoming(nowMillis: Long = System.currentTimeMillis()): Boolean =
     !isFulfilled && daysUntilDue(nowMillis) > 7
 
-/** Maps a wish to its [WishUrgency] bucket. Fulfilled wishes always map to FULFILLED. */
+/**
+ * Maps a wish to its [WishUrgency] bucket. Fulfilled wishes always map to FULFILLED.
+ *
+ * Delegates to [isOverdue], [isDueToday] and [isDueThisWeek] so threshold logic
+ * lives in one place.
+ */
 fun Wish.urgency(nowMillis: Long = System.currentTimeMillis()): WishUrgency {
-    if (isFulfilled) return WishUrgency.FULFILLED
-    val days = daysUntilDue(nowMillis)
     return when {
-        days < 0 -> WishUrgency.OVERDUE
-        days == 0 -> WishUrgency.TODAY
-        days <= 7 -> WishUrgency.THIS_WEEK
+        isFulfilled -> WishUrgency.FULFILLED
+        isOverdue(nowMillis) -> WishUrgency.OVERDUE
+        isDueToday(nowMillis) -> WishUrgency.TODAY
+        isDueThisWeek(nowMillis) -> WishUrgency.THIS_WEEK
         else -> WishUrgency.UPCOMING
     }
 }
@@ -108,17 +112,22 @@ fun List<Wish>.groupByUrgency(
     }
 }
 
+/** Counts active wishes past their target date. */
 fun List<Wish>.countOverdue(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isOverdue(nowMillis) }
 
+/** Counts active wishes due today. */
 fun List<Wish>.countDueToday(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isDueToday(nowMillis) }
 
+/** Counts active wishes due in the next 1-7 days. */
 fun List<Wish>.countDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isDueThisWeek(nowMillis) }
 
+/** Counts active wishes due more than 7 days out. */
 fun List<Wish>.countUpcoming(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isUpcoming(nowMillis) }
 
+/** Counts fulfilled wishes. */
 fun List<Wish>.countFulfilled(): Int =
     count { it.isFulfilled }
