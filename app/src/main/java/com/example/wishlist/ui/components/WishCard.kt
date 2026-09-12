@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.wishlist.data.Priority
 import com.example.wishlist.data.Wish
+import com.example.wishlist.data.isActive
 import com.example.wishlist.ui.theme.PriorityDream
 import com.example.wishlist.ui.theme.PriorityHigh
 import com.example.wishlist.ui.theme.PriorityLow
@@ -63,7 +64,7 @@ fun WishCard(
     }
 
     val daysRemaining = getDaysRemaining(wish.targetDate)
-    val isOverdue = daysRemaining < 0 && !wish.isFulfilled
+    val isOverdue = daysRemaining < 0 && wish.isActive
     val isToday = daysRemaining == 0
 
     Card(
@@ -169,7 +170,7 @@ fun WishCard(
                         }
 
                         // Days remaining badge
-                        if (!wish.isFulfilled) {
+                        if (wish.isActive) {
                             DaysRemainingBadge(
                                 daysRemaining = daysRemaining,
                                 isOverdue = isOverdue,
