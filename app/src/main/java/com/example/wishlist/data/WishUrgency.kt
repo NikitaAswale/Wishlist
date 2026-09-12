@@ -52,6 +52,10 @@ fun Wish.isDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Boolean {
 fun Wish.isUpcoming(nowMillis: Long = System.currentTimeMillis()): Boolean =
     !isFulfilled && daysUntilDue(nowMillis) > 7
 
+/** True when the wish is not yet fulfilled. */
+val Wish.isActive: Boolean
+    get() = !isFulfilled
+
 /**
  * Maps a wish to its [WishUrgency] bucket. Fulfilled wishes always map to FULFILLED.
  *
@@ -131,3 +135,7 @@ fun List<Wish>.countUpcoming(nowMillis: Long = System.currentTimeMillis()): Int 
 /** Counts fulfilled wishes. */
 fun List<Wish>.countFulfilled(): Int =
     count { it.isFulfilled }
+
+/** Counts active (not yet fulfilled) wishes. */
+fun List<Wish>.countActive(): Int =
+    count { it.isActive }
