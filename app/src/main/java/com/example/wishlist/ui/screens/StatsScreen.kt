@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.wishlist.data.Priority
 import com.example.wishlist.data.Wish
+import com.example.wishlist.data.isActive
 import com.example.wishlist.ui.components.GradientBackground
 import com.example.wishlist.ui.components.getDaysRemaining
 import com.example.wishlist.ui.theme.GradientEnd
@@ -61,7 +62,7 @@ fun StatsScreen(
 ) {
     val allWishes by viewModel.allWishes.collectAsState()
 
-    val activeWishes = allWishes.filter { !it.isFulfilled }
+    val activeWishes = allWishes.filter { it.isActive }
     val fulfilledWishes = allWishes.filter { it.isFulfilled }
     val completionRate = if (allWishes.isEmpty()) 0f
     else fulfilledWishes.size.toFloat() / allWishes.size
