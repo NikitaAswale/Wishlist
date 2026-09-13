@@ -147,3 +147,19 @@ fun List<Wish>.activeWishes(): List<Wish> =
 /** Returns only fulfilled wishes. */
 fun List<Wish>.fulfilledWishes(): List<Wish> =
     filter { it.isFulfilled }
+
+/** Returns only active wishes past their target date. */
+fun List<Wish>.overdueWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    filter { it.isOverdue(nowMillis) }
+
+/** Returns only active wishes due today. */
+fun List<Wish>.dueTodayWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    filter { it.isDueToday(nowMillis) }
+
+/** Returns only active wishes due in the next 1-7 days. */
+fun List<Wish>.dueThisWeekWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    filter { it.isDueThisWeek(nowMillis) }
+
+/** Returns only active wishes due more than 7 days out. */
+fun List<Wish>.upcomingWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    filter { it.isUpcoming(nowMillis) }
