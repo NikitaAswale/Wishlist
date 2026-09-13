@@ -139,3 +139,11 @@ fun List<Wish>.countFulfilled(): Int =
 /** Counts active (not yet fulfilled) wishes. */
 fun List<Wish>.countActive(): Int =
     count { it.isActive }
+
+/** Returns only active (not yet fulfilled) wishes. */
+fun List<Wish>.activeWishes(): List<Wish> =
+    filter { it.isActive }
+
+/** Returns only fulfilled wishes. */
+fun List<Wish>.fulfilledWishes(): List<Wish> =
+    filter { it.isFulfilled }
