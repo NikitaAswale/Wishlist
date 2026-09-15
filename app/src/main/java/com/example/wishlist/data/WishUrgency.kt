@@ -163,3 +163,10 @@ fun List<Wish>.dueThisWeekWishes(nowMillis: Long = System.currentTimeMillis()): 
 /** Returns only active wishes due more than 7 days out. */
 fun List<Wish>.upcomingWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isUpcoming(nowMillis) }
+
+/** Counts wishes in the given [WishUrgency] bucket. */
+fun List<Wish>.countByUrgency(
+    urgency: WishUrgency,
+    nowMillis: Long = System.currentTimeMillis()
+): Int =
+    count { it.urgency(nowMillis) == urgency }
