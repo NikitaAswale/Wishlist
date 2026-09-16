@@ -170,3 +170,10 @@ fun List<Wish>.countByUrgency(
     nowMillis: Long = System.currentTimeMillis()
 ): Int =
     count { it.urgency(nowMillis) == urgency }
+
+/** Returns only wishes in the given [WishUrgency] bucket. */
+fun List<Wish>.wishesByUrgency(
+    urgency: WishUrgency,
+    nowMillis: Long = System.currentTimeMillis()
+): List<Wish> =
+    filter { it.urgency(nowMillis) == urgency }
