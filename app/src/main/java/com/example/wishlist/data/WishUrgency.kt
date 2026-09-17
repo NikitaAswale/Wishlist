@@ -177,3 +177,10 @@ fun List<Wish>.wishesByUrgency(
     nowMillis: Long = System.currentTimeMillis()
 ): List<Wish> =
     filter { it.urgency(nowMillis) == urgency }
+
+/** Returns true when any wish falls in the given [WishUrgency] bucket. */
+fun List<Wish>.hasWishesInUrgency(
+    urgency: WishUrgency,
+    nowMillis: Long = System.currentTimeMillis()
+): Boolean =
+    any { it.urgency(nowMillis) == urgency }
