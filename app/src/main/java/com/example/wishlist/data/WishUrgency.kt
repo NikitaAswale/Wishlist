@@ -52,6 +52,15 @@ fun Wish.isDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Boolean {
 fun Wish.isUpcoming(nowMillis: Long = System.currentTimeMillis()): Boolean =
     !isFulfilled && daysUntilDue(nowMillis) > 7
 
+/** True when active and due within [daysAhead] days (today inclusive). */
+fun Wish.isDueSoon(
+    daysAhead: Int = 3,
+    nowMillis: Long = System.currentTimeMillis()
+): Boolean {
+    val days = daysUntilDue(nowMillis)
+    return !isFulfilled && days in 0..daysAhead
+}
+
 /** True when the wish is not yet fulfilled. */
 val Wish.isActive: Boolean
     get() = !isFulfilled
@@ -163,6 +172,13 @@ fun List<Wish>.dueThisWeekWishes(nowMillis: Long = System.currentTimeMillis()): 
 /** Returns only active wishes due more than 7 days out. */
 fun List<Wish>.upcomingWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isUpcoming(nowMillis) }
+
+/** Returns only active wishes due within [daysAhead] days (today inclusive). */
+fun List<Wish>.dueSoonWishes(
+    daysAhead: Int = 3,
+    nowMillis: Long = System.currentTimeMillis()
+): List<Wish> =
+    filter { it.isDueSoon(daysAhead, nowMillis) }
 
 /** Counts wishes in the given [WishUrgency] bucket. */
 fun List<Wish>.countByUrgency(
