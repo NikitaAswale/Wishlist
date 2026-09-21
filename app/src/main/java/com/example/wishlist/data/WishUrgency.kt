@@ -180,6 +180,13 @@ fun List<Wish>.dueSoonWishes(
 ): List<Wish> =
     filter { it.isDueSoon(daysAhead, nowMillis) }
 
+/** Counts active wishes due within [daysAhead] days (today inclusive). */
+fun List<Wish>.countDueSoon(
+    daysAhead: Int = 3,
+    nowMillis: Long = System.currentTimeMillis()
+): Int =
+    count { it.isDueSoon(daysAhead, nowMillis) }
+
 /** Counts wishes in the given [WishUrgency] bucket. */
 fun List<Wish>.countByUrgency(
     urgency: WishUrgency,
