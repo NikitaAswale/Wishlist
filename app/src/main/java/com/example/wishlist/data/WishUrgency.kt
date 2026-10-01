@@ -177,6 +177,10 @@ fun List<Wish>.hasDueToday(nowMillis: Long = System.currentTimeMillis()): Boolea
 fun List<Wish>.dueThisWeekWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isDueThisWeek(nowMillis) }
 
+/** Returns true when any active wish is due in the next 1-7 days. */
+fun List<Wish>.hasDueThisWeek(nowMillis: Long = System.currentTimeMillis()): Boolean =
+    any { it.isDueThisWeek(nowMillis) }
+
 /** Returns only active wishes due more than 7 days out. */
 fun List<Wish>.upcomingWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isUpcoming(nowMillis) }
