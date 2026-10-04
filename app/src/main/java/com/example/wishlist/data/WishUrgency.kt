@@ -153,6 +153,10 @@ fun List<Wish>.countActive(): Int =
 fun List<Wish>.activeWishes(): List<Wish> =
     filter { it.isActive }
 
+/** Returns true when any wish is still active (not yet fulfilled). */
+fun List<Wish>.hasActive(): Boolean =
+    any { it.isActive }
+
 /** Returns only fulfilled wishes. */
 fun List<Wish>.fulfilledWishes(): List<Wish> =
     filter { it.isFulfilled }
