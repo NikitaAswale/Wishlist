@@ -161,6 +161,10 @@ fun List<Wish>.hasActive(): Boolean =
 fun List<Wish>.fulfilledWishes(): List<Wish> =
     filter { it.isFulfilled }
 
+/** Returns true when any wish is already fulfilled. */
+fun List<Wish>.hasFulfilled(): Boolean =
+    any { it.isFulfilled }
+
 /** Returns only active wishes past their target date. */
 fun List<Wish>.overdueWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isOverdue(nowMillis) }
