@@ -108,6 +108,10 @@ fun List<Wish>.sortedByUrgency(nowMillis: Long = System.currentTimeMillis()): Li
     )
 }
 
+/** Returns only active wishes sorted by urgency (most urgent first). */
+fun List<Wish>.activeSortedByUrgency(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    activeWishes().sortedByUrgency(nowMillis)
+
 /** Groups wishes into urgency buckets, omitting empty buckets. Order is most urgent first. */
 fun List<Wish>.groupByUrgency(
     nowMillis: Long = System.currentTimeMillis()
