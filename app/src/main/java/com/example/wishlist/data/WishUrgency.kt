@@ -129,6 +129,12 @@ fun List<Wish>.groupByUrgency(
     }
 }
 
+/** Groups only active wishes into urgency buckets, omitting empty buckets. */
+fun List<Wish>.activeGroupedByUrgency(
+    nowMillis: Long = System.currentTimeMillis()
+): List<Pair<WishUrgency, List<Wish>>> =
+    activeWishes().groupByUrgency(nowMillis)
+
 /** Counts active wishes past their target date. */
 fun List<Wish>.countOverdue(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isOverdue(nowMillis) }
