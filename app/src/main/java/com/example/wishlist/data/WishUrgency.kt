@@ -179,6 +179,10 @@ fun List<Wish>.hasFulfilled(): Boolean =
 fun List<Wish>.overdueWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isOverdue(nowMillis) }
 
+/** Returns overdue wishes sorted by earliest target date first. */
+fun List<Wish>.overdueSortedByDate(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    overdueWishes(nowMillis).sortedBy { it.targetDate }
+
 /** Returns true when any active wish is past its target date. */
 fun List<Wish>.hasOverdue(nowMillis: Long = System.currentTimeMillis()): Boolean =
     any { it.isOverdue(nowMillis) }
