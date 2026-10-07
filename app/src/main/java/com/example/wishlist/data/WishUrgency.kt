@@ -191,6 +191,10 @@ fun List<Wish>.hasOverdue(nowMillis: Long = System.currentTimeMillis()): Boolean
 fun List<Wish>.dueTodayWishes(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
     filter { it.isDueToday(nowMillis) }
 
+/** Returns due-today wishes sorted by earliest target date first. */
+fun List<Wish>.dueTodaySortedByDate(nowMillis: Long = System.currentTimeMillis()): List<Wish> =
+    dueTodayWishes(nowMillis).sortedBy { it.targetDate }
+
 /** Returns true when any active wish is due today. */
 fun List<Wish>.hasDueToday(nowMillis: Long = System.currentTimeMillis()): Boolean =
     any { it.isDueToday(nowMillis) }
