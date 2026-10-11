@@ -230,6 +230,13 @@ fun List<Wish>.dueSoonWishes(
 ): List<Wish> =
     filter { it.isDueSoon(daysAhead, nowMillis) }
 
+/** Returns due-soon wishes sorted by earliest target date first. */
+fun List<Wish>.dueSoonSortedByDate(
+    daysAhead: Int = 3,
+    nowMillis: Long = System.currentTimeMillis()
+): List<Wish> =
+    dueSoonWishes(daysAhead, nowMillis).sortedBy { it.targetDate }
+
 /** Counts active wishes due within [daysAhead] days (today inclusive). */
 fun List<Wish>.countDueSoon(
     daysAhead: Int = 3,
