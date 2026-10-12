@@ -163,6 +163,10 @@ fun List<Wish>.countActive(): Int =
 fun List<Wish>.activeWishes(): List<Wish> =
     filter { it.isActive }
 
+/** Returns active wishes sorted by earliest target date first. */
+fun List<Wish>.activeSortedByDate(): List<Wish> =
+    activeWishes().sortedBy { it.targetDate }
+
 /** Returns true when any wish is still active (not yet fulfilled). */
 fun List<Wish>.hasActive(): Boolean =
     any { it.isActive }
