@@ -175,6 +175,10 @@ fun List<Wish>.hasActive(): Boolean =
 fun List<Wish>.fulfilledWishes(): List<Wish> =
     filter { it.isFulfilled }
 
+/** Returns fulfilled wishes sorted by earliest target date first. */
+fun List<Wish>.fulfilledSortedByDate(): List<Wish> =
+    fulfilledWishes().sortedBy { it.targetDate }
+
 /** Returns true when any wish is already fulfilled. */
 fun List<Wish>.hasFulfilled(): Boolean =
     any { it.isFulfilled }
