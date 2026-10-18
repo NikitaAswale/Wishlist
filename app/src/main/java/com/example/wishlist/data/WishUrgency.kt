@@ -151,6 +151,14 @@ fun List<Wish>.dueTodayGrouped(
         if (list.isEmpty()) emptyList() else listOf(WishUrgency.TODAY to list)
     }
 
+/** Groups only this-week wishes into their single bucket. */
+fun List<Wish>.dueThisWeekGrouped(
+    nowMillis: Long = System.currentTimeMillis()
+): List<Pair<WishUrgency, List<Wish>>> =
+    dueThisWeekWishes(nowMillis).let { list ->
+        if (list.isEmpty()) emptyList() else listOf(WishUrgency.THIS_WEEK to list)
+    }
+
 /** Counts active wishes past their target date. */
 fun List<Wish>.countOverdue(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isOverdue(nowMillis) }
