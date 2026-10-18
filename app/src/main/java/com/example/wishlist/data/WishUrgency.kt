@@ -167,6 +167,12 @@ fun List<Wish>.upcomingGrouped(
         if (list.isEmpty()) emptyList() else listOf(WishUrgency.UPCOMING to list)
     }
 
+/** Groups only fulfilled wishes into their single bucket. */
+fun List<Wish>.fulfilledGrouped(): List<Pair<WishUrgency, List<Wish>>> =
+    fulfilledWishes().let { list ->
+        if (list.isEmpty()) emptyList() else listOf(WishUrgency.FULFILLED to list)
+    }
+
 /** Counts active wishes past their target date. */
 fun List<Wish>.countOverdue(nowMillis: Long = System.currentTimeMillis()): Int =
     count { it.isOverdue(nowMillis) }
