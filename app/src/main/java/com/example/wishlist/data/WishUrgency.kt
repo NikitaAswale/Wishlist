@@ -317,3 +317,15 @@ fun List<Wish>.hasWishesInUrgency(
     nowMillis: Long = System.currentTimeMillis()
 ): Boolean =
     any { it.urgency(nowMillis) == urgency }
+
+/** Counts wishes with the given [Priority]. */
+fun List<Wish>.countByPriority(priority: Priority): Int =
+    count { it.priority == priority }
+
+/** Returns only wishes with the given [Priority]. */
+fun List<Wish>.wishesByPriority(priority: Priority): List<Wish> =
+    filter { it.priority == priority }
+
+/** Returns true when any wish has the given [Priority]. */
+fun List<Wish>.hasWishesWithPriority(priority: Priority): Boolean =
+    any { it.priority == priority }
