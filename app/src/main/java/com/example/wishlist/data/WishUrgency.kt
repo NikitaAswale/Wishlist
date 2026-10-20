@@ -329,3 +329,14 @@ fun List<Wish>.wishesByPriority(priority: Priority): List<Wish> =
 /** Returns true when any wish has the given [Priority]. */
 fun List<Wish>.hasWishesWithPriority(priority: Priority): Boolean =
     any { it.priority == priority }
+
+/** Sorts wishes by priority, DREAM first, then HIGH, MEDIUM, LOW. */
+fun List<Wish>.sortedByPriority(): List<Wish> {
+    val priorityOrder = mapOf(
+        Priority.DREAM to 0,
+        Priority.HIGH to 1,
+        Priority.MEDIUM to 2,
+        Priority.LOW to 3
+    )
+    return sortedWith(compareBy { priorityOrder.getValue(it.priority) })
+}
