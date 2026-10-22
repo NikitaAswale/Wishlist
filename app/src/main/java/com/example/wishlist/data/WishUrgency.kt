@@ -356,3 +356,7 @@ fun List<Wish>.sortedByPriorityThenDate(): List<Wish> {
         )
     )
 }
+
+/** Sorts wishes by earliest target date first. */
+fun List<Wish>.sortedByTargetDate(): List<Wish> =
+    sortedBy { it.targetDate }
