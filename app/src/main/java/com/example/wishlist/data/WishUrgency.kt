@@ -360,3 +360,7 @@ fun List<Wish>.sortedByPriorityThenDate(): List<Wish> {
 /** Sorts wishes by earliest target date first. */
 fun List<Wish>.sortedByTargetDate(): List<Wish> =
     sortedBy { it.targetDate }
+
+/** Returns the active wish with the earliest target date, or null when none. */
+fun List<Wish>.nextDueWish(): Wish? =
+    activeWishes().minByOrNull { it.targetDate }
